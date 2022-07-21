@@ -4,7 +4,7 @@
 // using import keyword to import => we are importing ES module
 import express from "express";
 import cors from "cors";
-import { filterObj as filter } from "./helpers.js";
+import { filterDestinations } from "./helpers.js";
 
 const server = express(); // This server is deaf
 
@@ -30,17 +30,28 @@ const destinationsDB = {
     photo:
       "https://images.unsplash.com/photo-1529655683826-aba9b3e77383?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80",
   },
+  898765: {
+    destination: "Taj Mahal",
+    location: "India",
+    photo:
+      "https://images.unsplash.com/photo-1564507592333-c60657eea523?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80",
+
+},
 };
+
 
 // CREATE (OPTIONAL)
 //Test your endpoint by going to localhost:3000/destinations
 server.get("/destinations", (req, res) => {
-    res.send(destinationsDB)
+    const city = req.query.city
+
+    filterDestinations({ city, destinationsDB, res});
 })
 
 // READ => DO THIS
 // GET /destinations => send back the whole db
-server.get("/destinations", (req, res) => {
+// localhost:3000/destinations/city/Atlanta
+server.get("/destinations/city/:myCity", (req, res) => {
     // TODO: Check for a city quiery parameter
     const city = req.query.city
 
@@ -56,8 +67,16 @@ server.get("/destinations", (req, res) => {
         res.send(destinationsDB);
     } 
 });
+server.get("/destinations/city/:myCity", (req, res) => {
+    // log the city passed in the url as a named route parameter
+    const city = req.params.myCity;
+
+    filterDestinations({ city, destinationsDB, res});
+});
+
 
 
 // UPDATE (OPTIONAL)
+
 
 // DELETE (OPTIONAL)
