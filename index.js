@@ -40,6 +40,8 @@ server.get("/destinations", (req, res) => {
 // READ => DO THIS
 // GET /destinations => send back the whole db
 server.get("/destinations", (req, res) => {
+    const city = req.query.city
+    console.log(req.query);
     res.send(destinationsDB)
 });
 
