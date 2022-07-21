@@ -1,9 +1,17 @@
-const express = require("express");
+// using require to import => we are importing CommonJS module
+//const express = require("express");
+
+// using import keyword to import => we are importing ES module
+import express from "express";
+import cors from "cors";
+
 const server = express(); // This server is deaf
+
+server.use(cors());
 
 const PORT = process.env.PORT || 3000;
 
-// Told the server to listen on port 3000
+// Told the server to listen on port available (when deployed) or 3000 when local
 server.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`);
  }) 
@@ -33,7 +41,8 @@ server.get("/destinations", (req, res) => {
 // GET /destinations => send back the whole db
 server.get("/destinations", (req, res) => {
     res.send(destinationsDB)
-})
+});
+
 
 // UPDATE (OPTIONAL)
 
