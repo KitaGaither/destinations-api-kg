@@ -4,6 +4,7 @@
 // using import keyword to import => we are importing ES module
 import express from "express";
 import cors from "cors";
+import { filterObj as filter } from "./helpers.js";
 
 const server = express(); // This server is deaf
 
@@ -40,9 +41,20 @@ server.get("/destinations", (req, res) => {
 // READ => DO THIS
 // GET /destinations => send back the whole db
 server.get("/destinations", (req, res) => {
+    // TODO: Check for a city quiery parameter
     const city = req.query.city
-    console.log(req.query);
-    res.send(destinationsDB)
+
+    //TODO: If there is a city query parameter, filter destination by the city
+    if (city !== undefined) {
+        const filteredDests = filter({
+            objectToFilter: destinationsDB,
+            filterValue: city,
+        });
+        res.send(filteredDests);
+    } else {
+        //TODO: otherwise just send the whole database
+        res.send(destinationsDB);
+    } 
 });
 
 
